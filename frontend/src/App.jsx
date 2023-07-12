@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+// import reactLogo from './assets/react.svg'
+// import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
@@ -8,27 +8,25 @@ function App() {
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark align-center">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="#">Manifesto.ai</a>
+        </div>3
+      </nav>
+      <div className="container bg-dark d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
+        <div>
+
+          <h1 className="text-white">Manifesto.ai</h1>
+          <div className="container container-half">
+            <p className="lead text-white mx-auto paragraph-width">
+              I believe that staying up to date with news nowadays is a huge pain.
+              So I built a tool that gives me what I need to know and leaves me with ideas to reflect on.
+            </p>
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
+
   )
 }
 
