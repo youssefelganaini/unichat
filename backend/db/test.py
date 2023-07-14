@@ -1,3 +1,3 @@
 from db import addUserToDB, deleteUserFromDB, getCurrentID
 
-print(deleteUserFromDB("test@gmail.com"))
+print(addUserToDB("Youssef", "newtest@gmail.com", "amzn", "en", "US"))

@@ -1,7 +1,7 @@
 import os
 import openai
-from news_catcher import searchHeadlines
-from news_catcher import news_outlets
+from backend.news_service.news_catcher import searchHeadlines
+from backend.news_service.news_catcher import news_outlets
 import tiktoken
 
 

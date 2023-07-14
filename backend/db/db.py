@@ -1,6 +1,7 @@
 import psycopg2
 import http
 
+
 conn = psycopg2.connect(
     host="localhost", dbname="youssef", user="postgres", password="1234"
 )
@@ -28,11 +29,14 @@ def getCurrentID():
 
 
 def addUserToDB(name, email, keywords, language, country):
+    conn = psycopg2.connect(
+        host="localhost", dbname="youssef", user="postgres", password="1234"
+    )
     cur = conn.cursor()
     try:
-        currentID = getCurrentID() + 1
-        query = "INSERT INTO users (id, name, email, keywords, language, country) VALUES(%s, %s, %s, %s, %s, %s)"
-        cur.execute(query, (currentID, name, email, keywords, language, country))
+        # currentID = getCurrentID() + 1
+        query = "INSERT INTO users (name, email, keywords, language, country) VALUES(%s, %s, %s, %s, %s)"
+        cur.execute(query, (name, email, keywords, language, country))
     except (Exception, psycopg2.Error) as error:
         print("Error in adding user operation - ", error)
         return http.HTTPStatus.BAD_REQUEST
@@ -42,6 +46,10 @@ def addUserToDB(name, email, keywords, language, country):
 
 
 def deleteUserFromDB(email):
+    conn = psycopg2.connect(
+        host="localhost", dbname="youssef", user="postgres", password="1234"
+    )
+    cur = conn.cursor()
     try:
         query = "DELETE from users WHERE email = %s"
         cur.execute(query, (email,))
@@ -49,9 +57,6 @@ def deleteUserFromDB(email):
         print("Error in deleting user operation - ", error)
         return http.HTTPStatus.BAD_REQUEST
     conn.commit()
+    cur.close()
+    conn.close()
     return http.HTTPStatus.ACCEPTED
-
-
-conn.commit()
-# cur.close()
-# conn.close()
