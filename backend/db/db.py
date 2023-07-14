@@ -1,7 +1,8 @@
 import psycopg2
+import http
 
 conn = psycopg2.connect(
-    host="localhost", dbname="Newsletter", user="postgres", password="1234"
+    host="localhost", dbname="youssef", user="postgres", password="1234"
 )
 
 cur = conn.cursor()
@@ -9,7 +10,7 @@ cur = conn.cursor()
 cur.execute(
     """
     CREATE TABLE IF NOT EXISTS users (
-    id INT PRIMARY KEY
+    id INT PRIMARY KEY,
     name TEXT,
     email TEXT,
     keywords TEXT,
@@ -20,23 +21,37 @@ cur.execute(
 )
 
 
-def addUser(name, email, keywords, language, country):
+def getCurrentID():
+    query = "SELECT COUNT(*) from users;"
+    cur.execute(query)
+    return cur.fetchone()[0]
+
+
+def addUserToDB(name, email, keywords, language, country):
+    cur = conn.cursor()
     try:
-        query = "INSERT INTO users (name, email, keywords, language country) VALUES(%s, %s, %s, %s, %s)"
-        cur.execute(query, (name, email, keywords, language, country))
+        currentID = getCurrentID() + 1
+        query = "INSERT INTO users (id, name, email, keywords, language, country) VALUES(%s, %s, %s, %s, %s, %s)"
+        cur.execute(query, (currentID, name, email, keywords, language, country))
     except (Exception, psycopg2.Error) as error:
-        print("Error in adding user operation", error)
+        print("Error in adding user operation - ", error)
+        return http.HTTPStatus.BAD_REQUEST
+    conn.commit()
+    cur.close()
+    return http.HTTPStatus.ACCEPTED
 
 
-def deleteUser(email):
-    query = "DELETE from users WHERE email = %s"
-    cur.execute(query, email)
-
-
-def update_email(new_email):
-    query = ""
+def deleteUserFromDB(email):
+    try:
+        query = "DELETE from users WHERE email = %s"
+        cur.execute(query, (email,))
+    except (Exception, psycopg2.Error) as error:
+        print("Error in deleting user operation - ", error)
+        return http.HTTPStatus.BAD_REQUEST
+    conn.commit()
+    return http.HTTPStatus.ACCEPTED
 
 
 conn.commit()
-cur.close()
-conn.close()
+# cur.close()
+# conn.close()

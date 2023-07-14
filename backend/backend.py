@@ -2,6 +2,7 @@ from fastapi import FastAPI
 import os
 import openai
 from news_catcher import searchHeadlines
+from db.db import addUserToDB, deleteUserFromDB
 
 app = FastAPI()
 content = ""
@@ -29,6 +30,12 @@ def getContentFromChatGPT(country: str, topic: str, news_outlets: str, language:
 
     content = response
 
+
 @app.post("/addUser/{email}/{category}/{keywords}/{language}/{country}")
-def addUser():
-    
+def addUser(email, category, keywords, language, country):
+    return addUserToDB(email, category, keywords, language, country)
+
+
+@app.delete("/deleteUser/{email}")
+def deleteUser(email):
+    return deleteUserFromDB(email)
